@@ -61,8 +61,99 @@ def ex6():
     print(pixels)
 
 
+def ex7():
+    img = Image.open("bebe.jpeg")
+    img2 = img.convert('L')
+    img3 = img.convert('1')
+    img2.show()
+    img3.show()
+
+
+def ex8():
+    img = Image.open("bebe.jpeg")
+    largeur, hauteur = img.size
+
+    WHITE_THRESHOLD = 50
+
+    for x in range(largeur):
+        for y in range(hauteur):
+            r, v, b = img.getpixel((x, y))
+            if r > WHITE_THRESHOLD and v > WHITE_THRESHOLD and b > WHITE_THRESHOLD:
+                img.putpixel((x, y), (0, 0, 0))
+    img.show()
+
+
+def ex9():
+    img = Image.open("bebe.jpeg")
+
+    def niv_de_gris(image):
+        largeur, hauteur = image.size
+        for x in range(largeur):
+            for y in range(hauteur):
+                r, v, b = image.getpixel((x, y))
+                g = int(0.125 * r + 0.7154 * v + 0.0721 * b)  # int((r + v + b) / 3)
+                image.putpixel((x, y), (g, g, g))
+        return image
+
+    niv_de_gris(img).show()
+
+
+def ex9_c():
+
+    def noir_et_blanc(image, seuil: int):
+        width, height = image.size
+        for x in range(width):
+            for y in range(height):
+                r, v, b = image.getpixel((x, y))
+                image.putpixel((x, y), (255, 255, 255) if int(0.125 * r + 0.7154 * v + 0.0721 * b) < seuil else (0, 0, 0))
+        return image
+
+    img = Image.open("bebe.jpeg")
+    noir_et_blanc(img, 175).show()
+
+
+def ex10():
+
+    def img_en_neg(image):
+        width, height = image.size
+        for x in range(width):
+            for y in range(height):
+                r, v, b = image.getpixel((x, y))
+                image.putpixel((x, y), (255 - r, 255 - v, 255 - b))
+        return image
+
+    img = Image.open("bebe.jpeg")
+    img_en_neg(img).show()
+
+
+def ex11():
+
+    def filtre_rouge_noir(image):
+        width, height = image.size
+        for x in range(width):
+            for y in range(height):
+                r, v, b = image.getpixel((x, y))
+                if v < r > b:
+                    image.putpixel((x, y), (0, 0, 0))
+        return image
+
+    filtre_rouge_noir(Image.open("bebe.jpeg")).show()
+
+
+def ex12_a():
+    img = Image.open("bebe.jpeg")
+    for i in range(50, 101):
+        for j in range(150, 301):
+            if (i - j) // 10 % 2 == 0:
+                img.putpixel((i, j), (0, 0, 255))
+            else:
+                img.putpixel((i, j), (255, 0, 255))
+
+    img.show()
+
+
 def main():
-    ex6()
+    ex12_a()
 
 
 if __name__ == "__main__":
